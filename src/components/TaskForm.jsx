@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 const TaskForm = () => {
   const [task, setTask] = useState("");
   const [error, setError] = useState("");
+  const [priority, setPriority] = useState("");
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const { themeMode, darkTheme, lightTheme } = useTheme();
@@ -26,8 +27,10 @@ const TaskForm = () => {
       id: Date.now(),
       task: task.trim(),
       completed: false,
+      priority
     };
     dispatch(addTask(newTask));
+    setPriority("low");
     setTask("");
   };
 
@@ -88,6 +91,18 @@ const TaskForm = () => {
               : "border-gray-600 bg-gray-700 text-white focus:ring-blue-400"
           } focus:outline-none focus:ring-2 transition duration-150`}
         />
+        <select
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+          className={`flex-1 px-4 py-3 rounded-lg border ${
+            themeMode === "light"
+              ? "border-gray-300 focus:ring-blue-500"
+              : "border-gray-600 bg-gray-700 text-white focus:ring-blue-400"
+          } focus:outline-none focus:ring-2 transition duration-150`}
+        >
+          <option value="low">Low Priority</option>
+          <option value="high">High Priority</option>
+        </select>
         <button
           type="submit"
           className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-200"
