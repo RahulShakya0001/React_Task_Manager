@@ -5,8 +5,8 @@ const initialState = {
         {
             id: 32,
             task: "First Task Default",
-            completed: false
-
+            completed: false,
+            priority: 'low', 
         }
     ],
 }
