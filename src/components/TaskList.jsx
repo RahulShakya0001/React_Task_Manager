@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useRef,
   useContext,
+  useEffect,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -24,6 +25,7 @@ function TaskList() {
   const [filter, setFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef(null);
+  const selectRef = useRef(null);
 
   // Event handlers with useCallback
   const handleFilterChange = useCallback((e) => {
@@ -38,7 +40,12 @@ function TaskList() {
     setSearchQuery("");
     searchInputRef.current.focus();
   }, []);
-
+  useEffect(() => {
+    if (editId && selectRef.current) {
+      selectRef.current.focus();
+      selectRef.current.select();
+    }
+  }, [editId]);
   const handleEditStart = useCallback((id, task) => {
     setEditId(id);
     setEditText(task);
@@ -149,6 +156,7 @@ function TaskList() {
             />
             {editId === t.id ? (
               <input
+                ref={selectRef}
                 type="text"
                 value={editText}
                 onChange={(e) => setEditText(e.target.value)}
