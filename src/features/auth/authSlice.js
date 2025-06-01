@@ -42,9 +42,9 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             localStorage.removeItem('authState');
             sessionStorage.removeItem('authToken');
-        },
+        }
     }
 });
 
-export const {signUp, logIn, logOut} = authSlice.actions;
+export const { signUp, logIn, logOut, setThemeMode } = authSlice.actions;
 export default authSlice.reducer;

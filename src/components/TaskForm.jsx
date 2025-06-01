@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../features/tasks/tasksSlice.js";
 import TaskList from "./TaskList.jsx";
@@ -13,7 +13,6 @@ const TaskForm = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const { themeMode, darkTheme, lightTheme } = useTheme();
-
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   const handleSubmit = (e) => {
@@ -23,16 +22,20 @@ const TaskForm = () => {
       return;
     }
     setError("");
+    
     const newTask = {
       id: Date.now(),
       task: task.trim(),
       completed: false,
-      priority
+      priority,
     };
     dispatch(addTask(newTask));
     setPriority("low");
     setTask("");
   };
+  useEffect(() => {
+    sessionStorage.setItem("themeSet", JSON.stringify({ themeMode }));
+  }, [themeMode]);
 
   return (
     <div
